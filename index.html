@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Solubility Trials</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Barlow:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06130e;--panel:#0c1f17;--ink:#e8f6ef;--dim:#8cbba6;--acc:#1fa56f;--acc2:#0b5a41;--onacc:#031a11;--line:#1f5240;--bad:#ef4a60;--okbg:rgba(31,165,111,.13);--badbg:rgba(239,74,96,.13);--stripe:rgba(31,165,111,.07);
+--disp:'Big Shoulders Display','Impact','Arial Narrow',sans-serif;--body:'Barlow','Segoe UI',system-ui,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#e6f2ec;--panel:#fff;--ink:#0a2218;--dim:#3d6a56;--acc:#0e7a52;--onacc:#f2fff8;--line:#8fc2ab;--bad:#c9243b;--stripe:rgba(14,122,82,.08)}}
+:root[data-theme="light"]{--bg:#e6f2ec;--panel:#fff;--ink:#0a2218;--dim:#3d6a56;--acc:#0e7a52;--onacc:#f2fff8;--line:#8fc2ab;--bad:#c9243b;--stripe:rgba(14,122,82,.08)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:repeating-linear-gradient(115deg,var(--stripe) 0 2px,transparent 2px 46px),var(--bg);color:var(--ink);font:500 17px/1.45 var(--body)}
+.wrap{max-width:720px;margin:0 auto;padding:22px 14px 56px}
+[hidden]{display:none!important}
+button{font-family:var(--body);color:inherit}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:-6px}
+.slab{background:linear-gradient(100deg,var(--acc2),var(--acc));clip-path:polygon(0 0,100% 0,94% 100%,0 100%);padding:26px 30px 30px;color:#f2fff8}
+h1{margin:0;font:900 clamp(52px,15vw,96px)/.84 var(--disp);transform:skewX(-8deg);transform-origin:left}
+.slab p{margin:10px 0 0;font-weight:600;max-width:30ch}
+.menu{display:grid;gap:10px;margin-top:24px}
+.mrow{display:flex;align-items:center;gap:16px;text-align:left;padding:16px 28px 16px 18px;background:var(--panel);border:2px solid var(--line);cursor:pointer;clip-path:polygon(0 0,100% 0,calc(100% - 20px) 100%,0 100%);transition:transform .15s}
+.mrow:hover{transform:translateX(8px);border-color:var(--acc)}
+.mrow .n{font:900 46px/1 var(--disp);color:var(--acc);width:34px;text-align:center}
+.mrow b{font:900 34px/1 var(--disp);display:block}
+.mrow small{color:var(--dim);font-size:15px}
+.mrow.main{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
+.mrow.main .n,.mrow.main small{color:var(--onacc)}
+.util{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.util button{padding:12px 4px;background:transparent;border:2px solid var(--line);font:700 16px var(--body);cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.util button:hover{border-color:var(--acc)}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.top b{font:900 30px/1 var(--disp);flex:1}
+.tbtn{padding:8px 14px;border:2px solid var(--acc);background:transparent;color:var(--acc);font:700 15px var(--body);cursor:pointer}
+.clock{font:900 32px/1 var(--disp);color:var(--acc);min-width:72px;text-align:right}
+.bar{height:6px;background:var(--line);margin-bottom:14px}
+.bar i{display:block;height:100%;background:var(--acc);transition:width .2s}
+.card{background:var(--panel);border:1px solid var(--line);border-left:7px solid var(--acc);padding:22px 20px 26px;clip-path:polygon(0 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%)}
+.cname{font:900 clamp(34px,8vw,50px)/1 var(--disp)}
+.cform{font-size:30px;color:var(--dim);margin-top:2px}
+sub,sup{font-size:.6em}sup{color:var(--acc)}
+.lbl{margin:20px 0 8px;color:var(--dim);font-weight:600;font-size:15px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.six{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.opt{border:2px solid var(--line);background:transparent;padding:13px 6px;font:700 18px var(--body);cursor:pointer;clip-path:polygon(9px 0,100% 0,calc(100% - 9px) 100%,0 100%)}
+.six .opt{font:900 30px/1 var(--disp);padding:12px 0}
+.opt:hover{border-color:var(--acc)}
+.opt[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
+.go{display:block;width:100%;margin-top:22px;padding:14px;background:var(--acc);color:var(--onacc);border:2px solid var(--acc);font:900 25px/1 var(--disp);letter-spacing:.05em;cursor:pointer;clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,0 100%)}
+.go:disabled{opacity:.38;cursor:not-allowed}
+.go.ghost{background:transparent;color:var(--acc);margin-top:10px}
+textarea,input{width:100%;background:var(--bg);color:var(--ink);border:2px solid var(--line);padding:12px;font:500 17px var(--body)}
+textarea:focus-visible,input:focus-visible{outline:none;border-color:var(--acc)}
+.rbig{display:flex;align-items:baseline;gap:14px;transform:skewX(-8deg);transform-origin:left}
+.rbig small{font:800 30px var(--disp);color:var(--dim)}
+.rbig b{font:900 clamp(90px,26vw,130px)/.85 var(--disp);color:var(--acc)}
+details{margin-top:16px;border:1px solid var(--line);padding:8px 12px}
+summary{cursor:pointer;font-weight:700;color:var(--acc)}
+table{border-collapse:collapse;margin:10px 0;width:100%}
+td,th{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+th{color:var(--dim);font-size:15px}
+.gd li{margin:4px 0}
+.score{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.score b{font:900 clamp(70px,20vw,110px)/.85 var(--disp);color:var(--acc);transform:skewX(-8deg)}
+.score span{font:800 28px var(--disp);color:var(--dim)}
+.fb{margin-top:16px;padding:14px 16px;border-left:5px solid var(--acc);background:var(--okbg)}
+.fb.bad{border-color:var(--bad);background:var(--badbg)}
+.fb h3{margin:0 0 4px;font:900 28px/1 var(--disp)}
+.fb p{margin:6px 0}
+.rv{display:grid;grid-template-columns:34px 1fr;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.rv>b{font:900 30px/1 var(--disp);color:var(--acc)}
+.rv.b>b{color:var(--bad)}
+.rq{font-weight:700;font-size:18px}
+.nt{color:var(--dim);font-size:15px;margin-top:2px}
+.chip{display:inline-block;margin:3px 5px 3px 0;padding:0 9px;border:1px solid var(--acc);font-weight:600;font-size:15px}
+.seg{display:flex;gap:6px;margin-bottom:12px}
+.seg button{flex:1;padding:9px 2px;background:transparent;border:2px solid var(--line);font:700 15px var(--body);cursor:pointer}
+.seg button[aria-selected=true]{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
+ol{list-style:none;margin:0;padding:0}
+.lb li{display:grid;grid-template-columns:40px 1fr auto auto;gap:12px;padding:9px 0;border-top:1px solid var(--line);align-items:baseline}
+.lb li b{font:900 26px/1 var(--disp);color:var(--acc)}
+.lb li i{font-style:normal;color:var(--dim)}
+.order{display:flex;gap:6px;margin-bottom:6px}
+.o{flex:1;text-align:center;padding:6px 0 7px;border:2px solid var(--acc);clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.o b{display:block;font:900 28px/1 var(--disp)}
+.o i{font-size:11px;font-style:normal;font-weight:700}
+.o.s{background:var(--acc);color:var(--onacc)}
+.o.i{color:var(--acc)}
+.tools{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 4px;flex-wrap:wrap;color:var(--dim);font-size:15px}
+.rl{display:grid;grid-template-columns:58px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.rn{font:900 56px/.9 var(--disp);color:var(--acc);transform:skewX(-8deg)}
+.rl p{margin:4px 0 0;color:var(--dim);font-size:16px}
+.mn{font:800 22px/1.15 var(--disp);letter-spacing:.02em;margin-top:6px}
+.tag{font-weight:700;color:var(--acc)}
+.cover .hide{filter:blur(7px);cursor:pointer}
+.cover .hide.show{filter:none}
+.master{margin-top:12px;padding:14px 16px;background:var(--acc);color:var(--onacc)}
+.master b{font:900 26px/1.1 var(--disp);display:block;margin-top:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="home">
+  <div class="slab"><h1>SOLUBILITY TRIALS</h1><p>Six rules, checked in order. First match wins.</p></div>
+  <div class="menu">
+    <button class="mrow main" data-play="mc"><span class="n">1</span><span><b>Multiple choice</b><small>10 compounds. Pick soluble or insoluble, then the rule.</small></span></button>
+    <button class="mrow" data-play="wr"><span class="n">2</span><span><b>Written</b><small>6 rules, random order. Write the ions and whether they dissolve.</small></span></button>
+    <button class="mrow" data-play="hard"><span class="n">3</span><span><b>Hard trial</b><small>10 traps: exceptions, Ag/Pb/Hg salts and Ca/Sr/Ba.</small></span></button>
+  </div>
+  <div class="util"><button data-go="tips">Study tips</button><button data-go="board">Leaderboard</button><button data-go="guide">Typing guide</button></div>
+</section>
+
+<section id="test" hidden>
+  <div class="top"><button class="tbtn" data-go="home">Quit</button><b id="tMode"></b><span id="prog" style="color:var(--dim);font-weight:600"></span><span class="clock" id="clock">0.0s</span></div>
+  <div class="bar"><i id="barI" style="width:0"></i></div>
+  <div class="card"><div id="qa"></div><button class="go" id="lock" disabled>Lock in</button></div>
+</section>
+
+<section id="res" hidden>
+  <div class="top"><button class="tbtn" data-go="home">Home</button><b id="rTitle"></b></div>
+  <div class="card">
+    <div class="score"><b id="rScore"></b><span id="rTime"></span></div>
+    <div id="lbMsg" style="color:var(--dim);margin-top:6px"></div>
+    <div class="fb" id="nmBox" hidden><h3>Top 10 time</h3><p>Enter a name for the leaderboard.</p><input id="nmIn" maxlength="16" placeholder="Your name" aria-label="Your name"><button class="go" id="nmGo">Save my time</button></div>
+    <button class="go" id="redo">Repeat wrong answers</button>
+    <button class="go ghost" id="again">Play again</button>
+    <button class="go ghost" data-go="board">Leaderboard</button>
+    <p class="lbl" style="margin-top:26px">Review</p>
+    <div id="rList"></div>
+  </div>
+</section>
+
+<section id="board" hidden>
+  <div class="top"><button class="tbtn" data-go="home">Home</button><b>Fastest top 10</b></div>
+  <div class="card">
+    <div class="seg" id="seg"><button data-b="mc" aria-selected="true">Multiple choice</button><button data-b="wr" aria-selected="false">Written</button><button data-b="hard" aria-selected="false">Hard</button></div>
+    <ol class="lb" id="lbList"></ol>
+    <p class="nt">Ranked by finishing time. You need at least 80% correct on your first run to qualify. Practice rounds are not ranked.</p><p class="nt" id="lbWhere"></p>
+  </div>
+</section>
+
+<section id="guide" hidden>
+  <div class="top"><button class="tbtn" data-go="home">Home</button><b>Typing guide</b></div>
+  <div class="card gd" id="guideBody"></div>
+</section>
+
+<section id="tips" hidden>
+  <div class="top"><button class="tbtn" data-go="home">Home</button><b>Study tips</b></div>
+  <div class="card">
+    <div class="order" id="order"></div>
+    <p style="margin:6px 0 0;color:var(--dim)">The pattern is soluble, soluble, insoluble, soluble, insoluble, soluble. Say it as <b style="color:var(--ink)">SSISIS</b>.</p>
+    <div class="tools"><span>Tap a blurred line to reveal it.</span><button class="tbtn" id="cov">Blur ions</button></div>
+    <ol id="tipsList"></ol>
+    <div class="master">Whole order in one line<b>SPA Cops Mercury Crowns Chairs, Cash Barbara</b></div>
+  </div>
+</section>
+
+</div>
+<script>
+const SUPS='⁰¹²³⁴⁵⁶⁷⁸⁹';
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fm=f=>f.replace(/\d+/g,'<sub>$&</sub>');
+const ion=(f,n,c,s)=>(n>1?n:'')+fm(f)+'<sup>'+(c>1?c:'')+s+'</sup>';
+const part=(sp,n)=>n>1?(sp.p?'('+fm(sp.f)+')':fm(sp.f))+'<sub>'+n+'</sub>':fm(sp.f);
+const fmt=ms=>{const s=ms/1000;return s>=60?Math.floor(s/60)+':'+(s%60).toFixed(1).padStart(4,'0'):s.toFixed(1)+'s'};
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+const CAT=[
+ {f:'Na',n:'Sodium',c:1,r:1},{f:'K',n:'Potassium',c:1,r:1},{f:'NH4',n:'Ammonium',c:1,p:1,r:1},
+ {f:'Ag',n:'Silver',c:1,r:3},{f:'Pb',n:'Lead(II)',c:2,r:3},{f:'Hg2',n:'Mercury(I)',c:2,p:1,r:3},
+ {f:'Ca',n:'Calcium',c:2},{f:'Sr',n:'Strontium',c:2},{f:'Ba',n:'Barium',c:2},{f:'Mg',n:'Magnesium',c:2},
+ {f:'Cu',n:'Copper(II)',c:2},{f:'Zn',n:'Zinc',c:2},{f:'Ni',n:'Nickel(II)',c:2},{f:'Fe',n:'Iron(III)',c:3},{f:'Al',n:'Aluminum',c:3}];
+const AN=[
+ {f:'NO3',n:'Nitrate',c:1,p:1,r:2},{f:'C2H3O2',n:'Acetate',c:1,p:1,r:2},{f:'ClO3',n:'Chlorate',c:1,p:1,r:2},{f:'ClO4',n:'Perchlorate',c:1,p:1,r:2},
+ {f:'Cl',n:'Chloride',c:1,r:4},{f:'Br',n:'Bromide',c:1,r:4},{f:'I',n:'Iodide',c:1,r:4},
+ {f:'CO3',n:'Carbonate',c:2,p:1,r:5},{f:'O',n:'Oxide',c:2,r:5},{f:'S',n:'Sulfide',c:2,r:5},{f:'OH',n:'Hydroxide',c:1,p:1,r:5},
+ {f:'SO3',n:'Sulfite',c:2,p:1,r:5},{f:'CrO4',n:'Chromate',c:2,p:1,r:5},{f:'PO4',n:'Phosphate',c:3,p:1,r:5},{f:'SO4',n:'Sulfate',c:2,p:1,r:6}];
+const EX5=['Ca-S','Sr-S','Ba-S','Ba-OH'],EX6=['Ca-SO4','Sr-SO4','Ba-SO4'];
+
+function evaluate(c,a){
+ const k=c.f+'-'+a.f;
+ if(c.r===1)return{s:1,r:1,why:c.n+' is sodium, potassium or ammonium. Rule 1 stops here.'};
+ if(a.r===2)return{s:1,r:2,why:a.n+' is a nitrate, acetate, chlorate or perchlorate. Rule 2 stops here.'};
+ if(c.r===3)return{s:0,r:3,why:c.n+' is Ag\u207A, Pb\u00B2\u207A or Hg\u2082\u00B2\u207A, and rules 1 and 2 did not catch it.'};
+ if(a.r===4)return{s:1,r:4,why:a.n+' is a halide and the cation is not from rule 3.'};
+ if(a.r===5){const x=EX5.includes(k);return{s:x?1:0,r:5,x,why:x?'A named exception (CaS, SrS, BaS, Ba(OH)\u2082), so it is soluble.':a.n+' is in the rule 5 family, which is insoluble.'}}
+ const x=EX6.includes(k);return{s:x?0:1,r:6,x,why:x?'Ca, Sr and Ba sulfates are the exceptions, so it is insoluble.':'Sulfates are soluble unless the cation is Ca, Sr or Ba.'};
+}
+const build=(c,a)=>{const g=gcd(c.c,a.c);return part(c,a.c/g)+part(a,c.c/g)};
+function equation(c,a,s){
+ const g=gcd(c.c,a.c),nc=a.c/g,na=c.c/g,comp=build(c,a)+'(s)';
+ const ions=ion(c.f,nc,c.c,'+')+'(aq) + '+ion(a.f,na,a.c,'\u2212')+'(aq)';
+ return s?comp+' \u2192 '+ions:ions+' \u2192 '+comp;
+}
+const ALL=[];CAT.forEach(c=>AN.forEach(a=>ALL.push({c,a,res:evaluate(c,a)})));
+
+const R=[
+ {s:1,ions:[['Na\u207A','na','sodium'],['K\u207A','k','potassium'],['NH\u2084\u207A','nh4','ammonium']],eq:'NaCl(s) \u2192 Na\u207A(aq) + Cl\u207B(aq)',m:'SPA',t:'Sodium, Potassium, Ammonium: the SPA trio. See one of these cations and stop. Always soluble.'},
+ {s:1,ions:[['NO\u2083\u207B','no3','nitrate'],['C\u2082H\u2083O\u2082\u207B','c2h3o2','ch3coo','ch3co2','acetate','oac'],['ClO\u2083\u207B','clo3','chlorate'],['ClO\u2084\u207B','clo4','perchlorate']],eq:'NaNO\u2083(s) \u2192 Na\u207A(aq) + NO\u2083\u207B(aq)',m:'No Cops Patch Ace',t:'Nitrate, Chlorate, Perchlorate, Acetate. None of them ever get caught as a precipitate.'},
+ {s:0,ions:[['Ag\u207A','ag','silver'],['Pb\u00B2\u207A','pb','pb2','lead'],['Hg\u2082\u00B2\u207A','hg2','hg22','mercury','mercuryi']],eq:'Ag\u207A(aq) + Br\u207B(aq) \u2192 AgBr(s)',m:'Mercury leads aging',t:'Silver, lead(II), mercury(I). If rules 1 and 2 did not catch the salt first, it is insoluble.'},
+ {s:1,ions:[['Cl\u207B','cl','chloride'],['Br\u207B','br','bromide'],['I\u207B','i','iodide']],eq:'KBr(s) \u2192 K\u207A(aq) + Br\u207B(aq)',m:'Crowns Bring Ice',t:'Halides dissolve unless paired with a rule 3 cation. That is why rule 3 comes first: AgCl, PbBr\u2082 and Hg\u2082I\u2082 are insoluble.'},
+ {s:0,ions:[['CO\u2083\u00B2\u207B','co3','co32','carbonate'],['O\u00B2\u207B','o','o2','oxide'],['S\u00B2\u207B','s','s2','sulfide','sulphide'],['OH\u207B','oh','hydroxide'],['SO\u2083\u00B2\u207B','so3','so32','sulfite'],['CrO\u2084\u00B2\u207B','cro4','cro42','chromate'],['PO\u2084\u00B3\u207B','po4','po43','phosphate']],exc:[['CaS','cas'],['SrS','srs'],['BaS','bas'],['Ba(OH)\u2082','baoh2']],eq:'Ca\u00B2\u207A(aq) + CO\u2083\u00B2\u207B(aq) \u2192 CaCO\u2083(s)',m:'Cows Often Sit On Soft Chairs, Peacefully',t:'Carbonate, Oxide, Sulfide, hydrOxide, Sulfite, Chromate, Phosphate. Insoluble, except CaS, SrS, BaS and Ba(OH)\u2082.'},
+ {s:1,ions:[['SO\u2084\u00B2\u207B','so4','so42','sulfate']],exc:[['CaSO\u2084','caso4'],['SrSO\u2084','srso4'],['BaSO\u2084','baso4']],eq:'K\u2082SO\u2084(s) \u2192 2K\u207A(aq) + SO\u2084\u00B2\u207B(aq)',m:'Cash, Sr. and Barbara sink',t:'Sulfates dissolve, except Ca, Sr and Ba sulfates.'}];
+
+const GUIDE='<p>Type the number right after the symbol and the sign after the ion. No special characters needed.</p><table><tr><th>You want</th><th>Type</th></tr><tr><td>NO\u2083\u207B</td><td>NO3-</td></tr><tr><td>NH\u2084\u207A</td><td>NH4+</td></tr><tr><td>Ca\u00B2\u207A</td><td>Ca2+</td></tr><tr><td>SO\u2084\u00B2\u207B</td><td>SO4 2- or SO4^2-</td></tr><tr><td>Hg\u2082\u00B2\u207A</td><td>Hg2 2+</td></tr><tr><td>Ba(OH)\u2082</td><td>Ba(OH)2</td></tr></table><ul><li>Separate ions with commas: Na+, K+, NH4+</li><li>Spaces and brackets are ignored, and the charge is optional, so NO3 works too.</li><li>Names count: nitrate, ammonium.</li><li>You can also paste \u2083 or \u00B2\u207B. They are read the same way.</li></ul>';
+$('#guideBody').innerHTML=GUIDE;
+
+/* ---------- run state ---------- */
+const MODES={mc:{t:'Multiple choice'},hard:{t:'Hard trial'},wr:{t:'Written'}};
+let S={};
+const go=id=>{['home','test','res','tips','board','guide'].forEach(x=>$('#'+x).hidden=x!==id);scrollTo(0,0)};
+function pool(m){
+ if(m==='wr')return shuf([0,1,2,3,4,5]).map(w=>({w}));
+ return shuf(m==='hard'?ALL.filter(x=>x.res.x||x.c.r===3||['Ca','Sr','Ba'].includes(x.c.f)):ALL).slice(0,10);
+}
+function start(mode,items,ranked){
+ clearInterval(S.iv);
+ S={mode,items,i:0,rec:[],ranked,t0:performance.now()};
+ S.iv=setInterval(()=>$('#clock').textContent=fmt(performance.now()-S.t0),100);
+ $('#tMode').textContent=MODES[mode].t+(ranked?'':' (practice)');
+ go('test');showQ();
+}
+function showQ(){
+ const it=S.items[S.i];S.sv=S.sr=undefined;
+ $('#prog').textContent=(S.i+1)+' / '+S.items.length;
+ $('#barI').style.width=(S.i/S.items.length*100)+'%';
+ $('#lock').textContent=S.i===S.items.length-1?'Finish':'Lock in';
+ const sol='<div class="two"><button class="opt" data-v="1" aria-pressed="false">Soluble</button><button class="opt" data-v="0" aria-pressed="false">Insoluble</button></div>';
+ $('#qa').innerHTML=it.w===undefined?
+  '<div class="cname">'+esc(it.c.n+' '+it.a.n.toLowerCase())+'</div><div class="cform">'+build(it.c,it.a)+'</div><p class="lbl">Is it soluble?</p>'+sol+'<p class="lbl">Which rule decides it?</p><div class="six">'+[1,2,3,4,5,6].map(n=>'<button class="opt" data-r="'+n+'" aria-pressed="false" aria-label="Rule '+n+'">'+n+'</button>').join('')+'</div>':
+  '<div class="rbig"><small>Rule</small><b>'+(it.w+1)+'</b></div><p class="lbl">Write the ions this rule covers, as formulas, separated by commas.</p><textarea id="wrIons" rows="2" placeholder="e.g. Na+, K+, NH4+" aria-label="Ions"></textarea><p class="lbl">Soluble or insoluble?</p>'+sol+
+  (R[it.w].exc?'<p class="lbl">Exceptions, as formulas</p><input id="wrExc" placeholder="e.g. CaS, BaS" aria-label="Exceptions">':'')+
+  '<details><summary>How do I type subscripts and charges?</summary><div class="gd">'+GUIDE+'</div></details>';
+ $('#lock').disabled=true;
+}
+$('#qa').addEventListener('click',e=>{
+ const b=e.target.closest('.opt');if(!b)return;
+ [...b.parentElement.children].forEach(x=>x.setAttribute('aria-pressed',x===b));
+ if(b.dataset.v!==undefined)S.sv=+b.dataset.v;else S.sr=+b.dataset.r;upd();
+});
+$('#qa').addEventListener('input',upd);
+function upd(){
+ const it=S.items[S.i];
+ $('#lock').disabled=it.w===undefined?(S.sv===undefined||S.sr===undefined):(S.sv===undefined||!$('#wrIons').value.trim());
+}
+
+/* ---------- grading ---------- */
+const norm=s=>s.toLowerCase().replace(/[\u2080-\u2089]/g,c=>c.charCodeAt(0)-8320).replace(/[\u2070\u00B9\u00B2\u00B3\u2074-\u2079]/g,c=>SUPS.indexOf(c)).replace(/[\s+\-\u2212\u2013^_{}()\u207A\u207B]/g,'');
+function grade(txt,list){
+ const raw=txt.split(/[,;\n]+/).map(s=>s.trim()).filter(Boolean),has=(i,t)=>i.slice(1).includes(norm(t));
+ const hit=list.filter(i=>raw.some(t=>has(i,t)));
+ return{hit,miss:list.filter(i=>!hit.includes(i)),xtra:raw.filter(t=>!list.some(i=>has(i,t)))};
+}
+const word=v=>v?'Soluble':'Insoluble';
+$('#lock').onclick=()=>{
+ const it=S.items[S.i];let rec;
+ if(it.w===undefined){
+  const r=it.res,ok=S.sv===r.s&&S.sr===r.r;
+  rec={it,ok,q:esc(it.c.n+' '+it.a.n.toLowerCase())+' ('+build(it.c,it.a)+')',mine:word(S.sv)+', rule '+S.sr,ans:word(r.s)+', rule '+r.r+(r.x?' (exception)':''),nt:r.why+'<br>'+equation(it.c,it.a,r.s)};
+ }else{
+  const r=R[it.w],txt=$('#wrIons').value,g=grade(txt,r.ions),xin=$('#wrExc'),xv=xin?xin.value:'',e=r.exc?grade(xv,r.exc):null;
+  const ok=!g.miss.length&&!g.xtra.length&&S.sv===r.s&&(!e||(!e.miss.length&&!e.xtra.length));
+  rec={it,ok,q:'Rule '+(it.w+1),mine:esc(txt)+' \u00B7 '+word(S.sv)+(xin?' \u00B7 exceptions: '+esc(xv||'none'):''),ans:r.ions.map(x=>x[0]).join(', ')+' \u00B7 '+word(r.s)+(r.exc?' \u00B7 exceptions: '+r.exc.map(x=>x[0]).join(', '):''),nt:'Example: '+r.eq};
+ }
+ S.rec.push(rec);
+ if(++S.i<S.items.length)showQ();else finish();
+};
+
+/* ---------- results ---------- */
+/* Leaderboard backend: Supabase when CFG is filled in, otherwise this device only (localStorage). */
+const CFG={url:'',key:''};
+const shared=!!(CFG.url&&CFG.key),H={apikey:CFG.key,Authorization:'Bearer '+CFG.key};
+async function lbGet(m){
+ if(shared){const r=await fetch(CFG.url+'/rest/v1/lb?mode=eq.'+m+'&select=n,t,s&order=t.asc&limit=10',{headers:H});if(!r.ok)throw 0;return r.json()}
+ try{return JSON.parse(localStorage.getItem('lb:'+m)||'[]')}catch(e){return[]}
+}
+async function lbAdd(m,e){
+ if(shared){const r=await fetch(CFG.url+'/rest/v1/lb',{method:'POST',headers:{...H,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({mode:m,n:e.n,t:e.t,s:e.s})});if(!r.ok)throw 0;return}
+ const l=await lbGet(m);l.push(e);l.sort((a,b)=>a.t-b.t);localStorage.setItem('lb:'+m,JSON.stringify(l.slice(0,10)));
+}
+async function finish(){
+ clearInterval(S.iv);S.ms=performance.now()-S.t0;
+ S.score=S.rec.filter(r=>r.ok).length;const n=S.items.length,bad=n-S.score;
+ $('#rTitle').textContent=MODES[S.mode].t+(S.ranked?'':' (practice)');
+ $('#rScore').textContent=S.score+' / '+n;$('#rTime').textContent=fmt(S.ms);
+ $('#nmBox').hidden=true;$('#lbMsg').textContent='';
+ $('#redo').hidden=!bad;$('#redo').textContent='Repeat wrong answers ('+bad+')';
+ $('#rList').innerHTML=S.rec.map(r=>'<div class="rv '+(r.ok?'g':'b')+'"><b>'+(r.ok?'\u2713':'\u2717')+'</b><div><div class="rq">'+r.q+'</div><div>You: '+r.mine+'</div>'+(r.ok?'':'<div>Answer: '+r.ans+'</div>')+'<div class="nt">'+r.nt+'</div></div></div>').join('');
+ go('res');
+ if(!S.ranked){$('#lbMsg').textContent='Practice round, not ranked.';return}
+ const need=Math.ceil(n*.8);
+ if(S.score<need){$('#lbMsg').textContent='Get at least '+need+' right to qualify for the leaderboard.';return}
+ try{
+  const l=await lbGet(S.mode);
+  if(l.length<10||S.ms<l[l.length-1].t){$('#nmBox').hidden=false;$('#lbMsg').textContent='';$('#nmIn').focus()}
+  else $('#lbMsg').textContent='Not a top 10 time this round.';
+ }catch(e){$('#lbMsg').textContent='The leaderboard could not be reached.'}
+}
+$('#nmGo').onclick=async()=>{
+ const name=$('#nmIn').value.trim().slice(0,16);if(!name)return;
+ $('#nmGo').disabled=true;
+ try{
+  await lbAdd(S.mode,{n:name,t:Math.round(S.ms),s:S.score});
+  $('#nmBox').hidden=true;$('#lbMsg').textContent=shared?'Saved. You are on the leaderboard.':'Saved on this device.';
+ }catch(e){$('#nmGo').disabled=false;$('#lbMsg').textContent='Could not save your time. Try again.'}
+};
+$('#again').onclick=()=>start(S.mode,pool(S.mode),true);
+$('#redo').onclick=()=>start(S.mode,shuf(S.rec.filter(r=>!r.ok).map(r=>r.it)),false);
+
+/* ---------- leaderboard ---------- */
+async function showBoard(m){
+ $$('#seg button').forEach(b=>b.setAttribute('aria-selected',b.dataset.b===m));
+ const ul=$('#lbList');ul.innerHTML='<li><span></span><span>Loading...</span></li>';
+ try{
+  const l=await lbGet(m);
+  ul.innerHTML=l.length?l.map((x,i)=>'<li><b>'+(i+1)+'</b><span>'+esc(x.n)+'</span><i>'+x.s+' right</i><span>'+fmt(x.t)+'</span></li>').join(''):'<li><span></span><span>No times yet. Be the first.</span></li>';
+ }catch(e){ul.innerHTML='<li><span></span><span>The leaderboard could not be reached.</span></li>'}
+}
+$('#seg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showBoard(b.dataset.b)});
+
+$('#lbWhere').textContent=shared?'Shared board: everyone sees the same times.':'Saved on this device only.';
+/* ---------- tips ---------- */
+$('#order').innerHTML=R.map((r,i)=>'<div class="o '+(r.s?'s':'i')+'"><b>'+(i+1)+'</b><i>'+(r.s?'soluble':'insoluble')+'</i></div>').join('');
+$('#tipsList').innerHTML=R.map((r,i)=>'<li class="rl"><div class="rn">'+(i+1)+'</div><div><span class="tag">'+(r.s?'Soluble':'Insoluble')+'</span>: <span class="hide">'+r.ions.map(x=>x[0]).join(', ')+'</span>'+(r.exc?'<div>Exceptions: <span class="hide">'+r.exc.map(x=>x[0]).join(', ')+'</span></div>':'')+'<div class="mn">\u201C'+r.m+'\u201D</div><p>'+r.t+'</p></div></li>').join('');
+$('#cov').onclick=()=>{const l=$('#tipsList');l.classList.toggle('cover');$('#cov').textContent=l.classList.contains('cover')?'Show ions':'Blur ions';$$('.hide').forEach(h=>h.classList.remove('show'))};
+$('#tipsList').addEventListener('click',e=>{const h=e.target.closest('.hide');if(h)h.classList.toggle('show')});
+
+/* ---------- navigation ---------- */
+document.addEventListener('click',e=>{
+ const p=e.target.closest('[data-play]');if(p){start(p.dataset.play,pool(p.dataset.play),true);return}
+ const g=e.target.closest('[data-go]');if(!g)return;
+ clearInterval(S.iv);
+ if(g.dataset.go==='board')showBoard(S.mode||'mc');
+ go(g.dataset.go);
+});
+</script>
+</body>
+</html>
